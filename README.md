@@ -131,4 +131,76 @@ gem "cells-rails"
 gem "cells-erb"
 ```
 
+```html
+-
+%h1 Comments
+@comments.each do |comment|
+  = concept("comment/cell", comment)
 
+= concept("comment/cell", comment)
+
+-
+%li
+  = model.body
+  By
+= link_to model.autor.email, author_path(model.author)
+
+-
+%li
+  = body
+By #{author_link}
+
+
+```
+
+
+```rb
+class Comment::Cell < Cell::ViewModel
+  def show
+    "This: #{model.inspect}"
+  end
+end
+
+class Comment::Cell < Cell::ViewModel
+  def show
+    render
+  end
+end
+
+
+class Comment::Cell < Cell::ViewModel
+  def show
+    render
+  end
+  
+private
+  def body
+    model.body
+  end
+  
+  def author_link
+    link_to model.author.email, author_path(model.author)
+  end
+end
+
+class Comment::Cell < Cell::ViewModel
+  property :body
+  property :author
+  
+  def show
+    render
+  end
+  
+private
+  def author_link
+    link_to author.email, author_path(author)
+  end
+end
+
+describe Comment::Cell doe
+  it do
+     html = concept("comment/cell", Comment.find(1)).()
+     expect(html).to have_css("h1")
+  end
+end
+```
